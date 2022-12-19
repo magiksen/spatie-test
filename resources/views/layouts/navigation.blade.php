@@ -20,6 +20,9 @@
                         {{ __('Usuarios') }}
                     </x-nav-link>
                     @endcan
+                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                        {{ __('Roles y Permisos') }}
+                    </x-nav-link>
                 </div>
             </div>
 

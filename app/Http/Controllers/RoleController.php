@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-
-class UsuariosController extends Controller
+class RoleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['can:usuarios.index'])->only('index');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +14,9 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        $usuarios = User::paginate();
+        $roles = Role::all();
 
-        return view('usuarios.index', compact('usuarios'));
+        return view('roles.index', compact('roles'));
     }
 
     /**
@@ -66,10 +59,7 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();
-        $usuario = User::find($id);
-
-        return view('usuarios.edit', compact('roles', 'usuario'));
+        //
     }
 
     /**
@@ -81,10 +71,7 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usuario = User::find($id);
-        $usuario->roles()->sync($request->roles);
-
-        return redirect()->route('usuarios.edit', $usuario)->with('info', 'Se asignaron los roles correctamente');
+        //
     }
 
     /**
