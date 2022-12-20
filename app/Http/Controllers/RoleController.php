@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -26,7 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permisos = Permission::all();
+
+        return view('roles.create', compact('permisos'));
     }
 
     /**
@@ -37,7 +40,15 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $role = Role::create($request->all());
+
+        $role->permissions()->sync($request->permisos);
+
+        return redirect()->route('roles.edit', $role)->with('info', 'el rol se creo con exito');
     }
 
     /**
@@ -57,9 +68,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        $permisos = Permission::all();
+
+        return view('roles.edit', compact('role','permisos'));
     }
 
     /**
