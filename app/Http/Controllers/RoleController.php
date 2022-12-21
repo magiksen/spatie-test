@@ -48,7 +48,7 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
-        return redirect()->route('roles.index')->with('info', 'el rol se creo con exito');
+        return redirect()->route('roles.edit', $role->id)->with('info', 'El rol se creo con exito');
     }
 
     /**
@@ -85,7 +85,17 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $role = Role::find($id);
+
+        $role->update($request->all());
+
+        $role->permissions()->sync($request->permissions);
+
+        return redirect()->route('roles.edit', $role->id)->with('info', 'El rol se actualizo con exito');
     }
 
     /**
@@ -96,6 +106,10 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::find($id);
+
+        $role->delete();
+
+        return redirect()->route('roles.index')->with('info', 'El rol se elimino con exito');
     }
 }
