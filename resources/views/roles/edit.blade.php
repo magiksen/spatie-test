@@ -16,7 +16,7 @@
                         </div>
                     @endif
 
-                    {!! Form::model($role, ['route' => ['roles.update', $role], 'method' => 'put']) !!}
+                    {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'put']) !!}
                     <div class="mt-4">
                         {!! Form::label('name', 'Nombre', ['class' => 'form-label block mb-2 text-gray-700']) !!}
                         {!! Form::text('name', null, ['class' => 'form-control text-gray-700 border border-solid border-gray-300 rounded', 'placeholder' => 'Ingrese el nombre del rol']) !!}
@@ -29,16 +29,16 @@
 
                     <h3 class="mt-8">Lista de permisos</h3>
 
-                    @foreach($permisos as $permiso)
+                    @foreach($permissions as $permission)
                         <div>
                             <label>
-                                {!! Form::checkbox('permisos[]', $permiso->id, null, ['class' => 'mr-1 mt-1']) !!}
-                                {{ $permiso->name }}
+                                {!! Form::checkbox('permissions[]', $permission->id, null, ['class' => 'mr-1 mt-1']) !!}
+                                {{ $permission->name }}
                             </label>
                         </div>
                     @endforeach
 
-                    {!! Form::submit('Crear Rol', ['class' => 'mt-5 block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out cursor-pointer']) !!}
+                    {!! Form::submit('Actualizar Rol', ['class' => 'mt-5 block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out cursor-pointer']) !!}
                     {!! Form::close() !!}
                 </div>
             </div>

@@ -27,9 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permisos = Permission::all();
+        $permissions = Permission::all();
 
-        return view('roles.create', compact('permisos'));
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -44,11 +44,11 @@ class RoleController extends Controller
             'name' => 'required',
         ]);
 
-        $role = Role::create($request->all());
+        $role = Role::create(['name' => $request->name]);
 
-        $role->permissions()->sync($request->permisos);
+        $role->permissions()->sync($request->permissions);
 
-        return redirect()->route('roles.edit', $role)->with('info', 'el rol se creo con exito');
+        return redirect()->route('roles.index')->with('info', 'el rol se creo con exito');
     }
 
     /**
@@ -68,11 +68,12 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        $permisos = Permission::all();
+        $role = Role::find($id);
+        $permissions = Permission::all();
 
-        return view('roles.edit', compact('role','permisos'));
+        return view('roles.edit', compact('role','permissions'));
     }
 
     /**
