@@ -73,7 +73,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -85,7 +85,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category = Category::find($category->id);
+
+        $category->name = $request->name;
+
+        $category->code = $request->code;
+
+        $category->save();
+
+        return redirect()->route('categories.edit', $category)->with('info', 'La categoria se actualizo con exito');
     }
 
     /**
