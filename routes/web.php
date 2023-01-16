@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,10 @@ Route::middleware('auth')->group(function () {
 Route::resource('usuarios', UsuariosController::class)->middleware(['auth']);
 Route::resource('roles', RoleController::class)->middleware(['auth']);
 Route::resource('categories', CategoryController::class)->middleware(['auth']);
+Route::resource('subcategories', SubCategoryController::class)->middleware(['auth']);
+Route::get(
+    'subcategories/category/{id}',
+    [SubCategoryController::class, 'bycategory']
+)->name('subcategories.bycategory');
 
 require __DIR__.'/auth.php';

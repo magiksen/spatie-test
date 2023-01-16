@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,17 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $subcategories = SubCategory::all();
+
+        return view('subcategories.index', compact('subcategories'));
+    }
+
+    public function bycategory($id)
+    {
+        $subcategories = SubCategory::where('category_id', $id)->get();
+
+
+        return view('subcategories.bycategory', compact('subcategories'));
     }
 
     /**
@@ -24,7 +35,9 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+
+        return view('subcategories.create', compact('categories'));
     }
 
     /**
@@ -35,7 +48,20 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:sub_categories',
+            'category_id' => 'required',
+        ]);
+
+        $subcategory = new SubCategory;
+
+        $subcategory->name = $request->name;
+
+        $subcategory->category_id = $request->category_id;
+
+        $subcategory->save();
+
+        return redirect()->route('subcategories.index', $subcategory)->with('info', 'La subcategoria se creo con exito');
     }
 
     /**
@@ -55,9 +81,12 @@ class SubCategoryController extends Controller
      * @param  \App\Models\SubCategory  $subCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubCategory $subCategory)
+    public function edit($id)
     {
-        //
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+        $subcategory = SubCategory::find($id);
+
+        return view('subcategories.edit', compact('categories', 'subcategory'));
     }
 
     /**
@@ -67,9 +96,17 @@ class SubCategoryController extends Controller
      * @param  \App\Models\SubCategory  $subCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubCategory $subCategory)
+    public function update(Request $request, $id)
     {
-        //
+        $subcategory = SubCategory::find($id);
+
+        $subcategory->name = $request->name;
+
+        $subcategory->category_id = $request->category_id;
+
+        $subcategory->save();
+
+        return redirect()->route('subcategories.edit', $subcategory)->with('info', 'La subcategoria se actualizo con exito');
     }
 
     /**
@@ -78,8 +115,12 @@ class SubCategoryController extends Controller
      * @param  \App\Models\SubCategory  $subCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubCategory $subCategory)
+    public function destroy($id)
     {
-        //
+        $subcategory = SubCategory::find($id);
+
+        $subcategory->delete();
+
+        return redirect()->route('subcategories.index')->with('info', 'La Subcategoria se elimino con exito');
     }
 }

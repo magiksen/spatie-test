@@ -42,7 +42,7 @@ class CategoryController extends Controller
             'code' => 'required',
         ]);
 
-        $category = new category;
+        $category = new Category;
 
         $category->name = $request->name;
 
