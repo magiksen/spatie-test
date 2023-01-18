@@ -19,7 +19,7 @@
                     {!! Form::open(['route' => 'subcategories.store']) !!}
                     <div class="mt-4">
                         {!! Form::label('name', 'Nombre', ['class' => 'form-label block mb-2 text-gray-700']) !!}
-                        {!! Form::text('name', null, ['class' => 'form-control text-gray-700 border border-solid border-gray-300 rounded', 'placeholder' => 'Ingrese el nombre de la categoria']) !!}
+                        {!! Form::text('name', null, ['class' => 'form-control text-gray-700 border border-solid border-gray-300 rounded', 'placeholder' => 'Ingrese el nombre de la subcategoria']) !!}
                         {!! Form::label('category_id', 'Categoría', ['class' => 'form-label block mb-2 text-gray-700']) !!}
                         {!! Form::select('category_id', $categories, null, ['placeholder' => 'Selecciona una Categoría...']) !!}
                         @if ($errors->any())

@@ -14,7 +14,9 @@ class InstitutionController extends Controller
      */
     public function index()
     {
-        //
+        $institutions = Institution::all();
+
+        return view('institutions.index', compact('institutions'));
     }
 
     /**
@@ -24,7 +26,7 @@ class InstitutionController extends Controller
      */
     public function create()
     {
-        //
+        return view('institutions.create');
     }
 
     /**
@@ -35,7 +37,17 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:institutions',
+        ]);
+
+        $institution = new Institution;
+
+        $institution->name = $request->name;
+
+        $institution->save();
+
+        return redirect()->route('institutions.index', $institution)->with('info', 'La Institución se creo con éxito');
     }
 
     /**
@@ -57,7 +69,7 @@ class InstitutionController extends Controller
      */
     public function edit(Institution $institution)
     {
-        //
+        return view('institutions.edit', compact('institution'));
     }
 
     /**
@@ -69,7 +81,13 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, Institution $institution)
     {
-        //
+        $institution = Institution::find($institution->id);
+
+        $institution->name = $request->name;
+
+        $institution->save();
+
+        return redirect()->route('institutions.edit', $institution)->with('info', 'La institución se actualizo con éxito');
     }
 
     /**
