@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -14,7 +15,9 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        $doctors = Doctor::all();
+
+        return view('doctors.index', compact('doctors'));
     }
 
     /**
@@ -24,7 +27,9 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $institution = Institution::all()->pluck('name', 'id')->toArray();
+
+        return view('doctors.create', compact('institution'));
     }
 
     /**
@@ -35,7 +40,20 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'institution_id' => 'nullable',
+        ]);
+
+        $doctors = new Doctor;
+
+        $doctors->name = $request->name;
+
+        $doctors->institution_id = $request->institution_id;
+
+        $doctors->save();
+
+        return redirect()->route('doctors.index', $doctors)->with('info', 'El doctor se creo con exito');
     }
 
     /**
@@ -57,7 +75,10 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        //
+        $institution = Institution::all()->pluck('name', 'id')->toArray();
+        $doctor = Doctor::find($doctor->id);
+
+        return view('doctors.edit', compact('institution', 'doctor'));
     }
 
     /**
@@ -69,7 +90,15 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        //
+        $doctor = Doctor::find($doctor->id);
+
+        $doctor->name = $request->name;
+
+        $doctor->institution_id = $request->institution_id;
+
+        $doctor->save();
+
+        return redirect()->route('doctors.edit', $doctor)->with('info', 'La información se actualizo con éxito');
     }
 
     /**
@@ -80,6 +109,10 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
-        //
+        $doctor = Doctor::find($doctor->id);
+
+        $doctor->delete();
+
+        return redirect()->route('doctors.index')->with('info', 'La información se elimino con exito');
     }
 }

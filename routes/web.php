@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -44,5 +45,7 @@ Route::resource('subcategories', SubCategoryController::class)->middleware(['aut
 Route::get('subcategories/category/{id}',[SubCategoryController::class, 'bycategory'])->name('subcategories.bycategory');
 /* Instituciones */
 Route::resource('institutions', InstitutionController::class)->middleware(['auth']);
+/* Doctores */
+Route::resource('doctors', DoctorController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';
