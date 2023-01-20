@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Doctor;
+use App\Models\Institution;
 use App\Models\Muestra;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class MuestraController extends Controller
@@ -14,7 +18,9 @@ class MuestraController extends Controller
      */
     public function index()
     {
-        //
+        $muestras = Muestra::all();
+
+        return view('muestras.index', compact('muestras'));
     }
 
     /**
@@ -24,7 +30,12 @@ class MuestraController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+        $doctors = Doctor::all()->pluck('name', 'id')->toArray();
+        $institution = Institution::all()->pluck('name', 'id')->toArray();
+        $subcategories = SubCategory::all()->pluck('name', 'id')->toArray();
+
+        return view('muestras.create', compact('categories', 'doctors', 'institution', 'subcategories'));
     }
 
     /**

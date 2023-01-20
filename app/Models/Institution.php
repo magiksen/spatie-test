@@ -16,4 +16,8 @@ class Institution extends Model
     public function doctors() {
         return $this->hasMany(Doctor::class);
     }
+
+    public function muestras() {
+        return $this->hasMany(Muestra::class);
+    }
 }
